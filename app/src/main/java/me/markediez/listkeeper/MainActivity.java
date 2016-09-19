@@ -85,9 +85,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode) {
             case REQUEST_CODE_EDIT:
-                items.set(data.getExtras().getInt("itemPosition"), data.getExtras().getString("editedItem"));
-                itemsAdapter.notifyDataSetChanged();
-                writeItems();
+                if (resultCode == RESULT_OK) {
+                    items.set(data.getExtras().getInt("itemPosition"), data.getExtras().getString("editedItem"));
+                    itemsAdapter.notifyDataSetChanged();
+                    writeItems();
+                }
+
                 break;
             default:;
         }
