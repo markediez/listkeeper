@@ -25,7 +25,9 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you can get done to improve the app functionality!
+* [ ] Mark items as done
+* [ ] Expand to have a list of to-do lists
+* [ ] Create a template to-do list e.g. Camping To Do list
 
 ## Video Walkthrough 
 
