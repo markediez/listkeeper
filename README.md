@@ -31,13 +31,14 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/OHlsqFA.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+So far, the biggest challenge was setting up Oracle Virtual Box for Genymotion. For some reason, version 5.x disables the host's
+internet. I still don't understand how keeping a shortcut and startup icon when installing solved the issue.
 
 ## License
 
