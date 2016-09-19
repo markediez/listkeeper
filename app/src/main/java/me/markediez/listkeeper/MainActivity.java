@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> itemsAdapter;
     ListView lvItems;
 
+    private final int REQUEST_CODE_EDIT = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +49,11 @@ public class MainActivity extends AppCompatActivity {
 
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
                 Intent i = new Intent(MainActivity.this, EditItemActivity.class);
-                startActivity(i);
+                i.putExtra("itemToEdit", items.get(pos));
+                i.putExtra("itemPosition", pos);
+                startActivityForResult(i, REQUEST_CODE_EDIT);
             }
         });
     }
@@ -71,6 +75,21 @@ public class MainActivity extends AppCompatActivity {
             FileUtils.writeLines(todoFile, items);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    // **********************************************************************
+    // Functions related to when a subactivity returns data
+    // **********************************************************************
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode) {
+            case REQUEST_CODE_EDIT:
+                items.set(data.getExtras().getInt("itemPosition"), data.getExtras().getString("editedItem"));
+                itemsAdapter.notifyDataSetChanged();
+                writeItems();
+                break;
+            default:;
         }
     }
 
