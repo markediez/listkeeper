@@ -1,5 +1,6 @@
 package me.markediez.listkeeper;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -41,6 +42,14 @@ public class MainActivity extends AppCompatActivity {
                 itemsAdapter.notifyDataSetChanged();
                 writeItems();
                 return true;
+            }
+        });
+
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(MainActivity.this, EditItemActivity.class);
+                startActivity(i);
             }
         });
     }
