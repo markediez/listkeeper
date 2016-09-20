@@ -143,7 +143,7 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_ITEM_TASK, item.task);
-        // TODO: update updatedAt
+        values.put(KEY_ITEM_UPDATED_AT, item.getCurrentDate());
 
         return db.update(TABLE_ITEMS, values, KEY_ITEM_ID + " = ?", new String[] {Integer.toString(item.id)});
     }
@@ -157,6 +157,19 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
             db.setTransactionSuccessful(); // TODO: Why?
         } catch(Exception e) {
             Log.d(TAG, "Error while trying to delete all items");
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    // Delete one item
+    public void deleteItem(Item item) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            db.delete(TABLE_ITEMS, KEY_ITEM_ID + " = ?", new String[] {Integer.toString(item.id)});
+        } catch(Exception e) {
+            Log.d(TAG, "Error while trying to delete an item");
         } finally {
             db.endTransaction();
         }
