@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Mark Diez on 9/20/2016.
  */
 public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
+    // Singleton Instance
+    private static ListKeeperDatabaseHelper sInstance;
+
     // Database Info
     private static final String DATABASE_NAME = "listKeeperDatabase";
     private static final int DATABASE_VERSION = 1;
@@ -22,7 +25,7 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_ITEM_UPDATED_AT = "updatedAt";
 
 
-    public ListKeeperDatabaseHelper(Context context) {
+    private ListKeeperDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -57,5 +60,17 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
 
             onCreate(db);
         }
+    }
+
+    // Synchronized makes sure that:
+    // 2 invocation of synchronized methods on the same object cannot interleave(?)
+    // (Basically) async = false between threads executing synchronized methods in the same object block
+    // Establishes a "happens-before" relationship
+    public static synchronized ListKeeperDatabaseHelper getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new ListKeeperDatabaseHelper(context.getApplicationContext());
+        }
+
+        return sInstance;
     }
 }
