@@ -1,5 +1,7 @@
 package me.markediez.listkeeper;
 
+import android.util.Log;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,8 +29,8 @@ public class Item {
     // Get current time for updatedAt and createdAt
     public String getCurrentDate() {
         Date currDate = new Date();
-        DateFormat df = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS.SSS");
-
+        DateFormat df = new SimpleDateFormat("y-M-d HH:mm:ss.SSS");
+        
         return df.format(currDate);
     }
 }
