@@ -86,9 +86,12 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
     /* CRUD Operations */
 
     // Create (and insert) an item to the database
-    public void addItem(Item item) {
+    public long addItem(Item item) {
         // Create or open database
         SQLiteDatabase db = getWritableDatabase(); // TODO: Why don't we call our helper?
+
+        // ID of new item
+        long id = -1;
 
         // We use a transaction in-case the sql statement fails
         // If it fails at any point (even after other execution), no change persists unless we
@@ -99,11 +102,16 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_ITEM_TASK, item.task);
             values.put(KEY_ITEM_CREATED_AT, item.createdAt);
             values.put(KEY_ITEM_UPDATED_AT, item.updatedAt);
+
+            id = db.insert(TABLE_ITEMS, null, values);
+            db.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d(TAG, "Error while trying to add an item to database");
         } finally {
             db.endTransaction();
         }
+
+        return id;
     }
 
     // Reading all items from the database
@@ -138,14 +146,14 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Updating an item's task
-    public int updateItemTask(Item item) {
+    public int updateItem(Item item) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_ITEM_TASK, item.task);
         values.put(KEY_ITEM_UPDATED_AT, item.getCurrentDate());
 
-        return db.update(TABLE_ITEMS, values, KEY_ITEM_ID + " = ?", new String[] {Integer.toString(item.id)});
+        return db.update(TABLE_ITEMS, values, KEY_ITEM_ID + " = ?", new String[] {Long.toString(item.id)});
     }
 
     // Delete all items
@@ -167,7 +175,7 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         try {
-            db.delete(TABLE_ITEMS, KEY_ITEM_ID + " = ?", new String[] {Integer.toString(item.id)});
+            db.delete(TABLE_ITEMS, KEY_ITEM_ID + " = ?", new String[] {Long.toString(item.id)});
         } catch(Exception e) {
             Log.d(TAG, "Error while trying to delete an item");
         } finally {
