@@ -1,12 +1,16 @@
 package me.markediez.listkeeper;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -33,23 +37,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupListViewListener() {
+        // Edit
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapter, View item, int pos, long id) {
-                db.deleteItem(items.get(pos));
-                items.remove(pos);
-                itemsAdapter.notifyDataSetChanged();
-                return true;
-            }
-        });
-
-        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
                 Intent i = new Intent(MainActivity.this, EditItemActivity.class);
                 i.putExtra("itemToEdit", items.get(pos).task);
                 i.putExtra("itemPosition", pos);
                 startActivityForResult(i, REQUEST_CODE_EDIT);
+
+                return true;
+            }
+        });
+
+        // Mark as done
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+                TextView task = (TextView)view.findViewById(R.id.tvTask);
+
+                // TODO: Not quite sure how:
+                // ~ Paint.STRIKE_THRU_TEXT_FLAG works to removee strike through
+                // a bitwise operator is valid in an argument that takes an intl
+                // http://stackoverflow.com/questions/18881817/removing-strikethrough-from-textview
+                if (task.getPaintFlags() == Paint.STRIKE_THRU_TEXT_FLAG) {
+                    task.setPaintFlags(task.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+                } else {
+                    task.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                }
             }
         });
     }
