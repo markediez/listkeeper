@@ -1,25 +1,22 @@
 package me.markediez.listkeeper;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<String> items;
-    ArrayAdapter<String> itemsAdapter;
-    ListView lvItems;
+    private final ListKeeperDatabaseHelper db = ListKeeperDatabaseHelper.getInstance(getApplicationContext());
 
+    ArrayList<Item> items;
+    ItemsAdapter itemsAdapter;
+    ListView lvItems;
+    // TODO: Switch ArrayList<String> to ArrayList<Item> and figure out how to make an adapter with custom class
     private final int REQUEST_CODE_EDIT = 1;
 
     @Override
@@ -29,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         lvItems = (ListView)findViewById(R.id.lvItems);
         readItems();
-        itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        itemsAdapter = new ItemsAdapter(this, items);
 
         lvItems.setAdapter(itemsAdapter);
 
@@ -40,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapter, View item, int pos, long id) {
+                db.deleteItem(items.get(pos));
                 items.remove(pos);
                 itemsAdapter.notifyDataSetChanged();
-                writeItems();
                 return true;
             }
         });
@@ -51,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
                 Intent i = new Intent(MainActivity.this, EditItemActivity.class);
-                i.putExtra("itemToEdit", items.get(pos));
+                i.putExtra("itemToEdit", items.get(pos).task);
                 i.putExtra("itemPosition", pos);
                 startActivityForResult(i, REQUEST_CODE_EDIT);
             }
@@ -59,22 +56,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void readItems() {
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
-        try {
-            items = new ArrayList<String>(FileUtils.readLines(todoFile));
-        } catch (IOException e) {
-            items = new ArrayList<String>();
-        }
-    }
-
-    private void writeItems() {
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
-        try {
-            FileUtils.writeLines(todoFile, items);
-        } catch (IOException e) {
-            e.printStackTrace();
+        items = new ArrayList<Item>();
+        for (Item i : db.getAllItems()) {
+            items.add(i);
         }
     }
 
@@ -86,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
         switch(requestCode) {
             case REQUEST_CODE_EDIT:
                 if (resultCode == RESULT_OK) {
-                    items.set(data.getExtras().getInt("itemPosition"), data.getExtras().getString("editedItem"));
+                    items.get(data.getExtras().getInt("itemPosition")).task = data.getExtras().getString("editedItem");
+                    db.updateItem(items.get(data.getExtras().getInt("itemPosition")));
                     itemsAdapter.notifyDataSetChanged();
-                    writeItems();
                 }
 
                 break;
@@ -102,9 +86,12 @@ public class MainActivity extends AppCompatActivity {
     public void onAddItem(View v) {
         EditText etNewItem = (EditText)findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
-        itemsAdapter.add(itemText);
+        Item newItem = new Item(itemText);
+        long id = db.addItem(newItem);
+
+        newItem.id = id;
+        itemsAdapter.add(newItem);
         etNewItem.setText("");
-        writeItems();
     }
 }
 
