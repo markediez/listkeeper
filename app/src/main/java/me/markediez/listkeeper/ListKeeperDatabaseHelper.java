@@ -176,6 +176,7 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
         db.beginTransaction();
         try {
             db.delete(TABLE_ITEMS, KEY_ITEM_ID + " = ?", new String[] {Long.toString(item.id)});
+            db.setTransactionSuccessful();
         } catch(Exception e) {
             Log.d(TAG, "Error while trying to delete an item");
         } finally {
