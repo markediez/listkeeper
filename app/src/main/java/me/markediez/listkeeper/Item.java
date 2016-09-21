@@ -30,7 +30,7 @@ public class Item {
     public String getCurrentDate() {
         Date currDate = new Date();
         DateFormat df = new SimpleDateFormat("y-M-d HH:mm:ss.SSS");
-        
+
         return df.format(currDate);
     }
 }

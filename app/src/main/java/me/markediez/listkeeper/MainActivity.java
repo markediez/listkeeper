@@ -11,8 +11,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private final ListKeeperDatabaseHelper db = ListKeeperDatabaseHelper.getInstance(getApplicationContext());
-
+    ListKeeperDatabaseHelper db;
     ArrayList<Item> items;
     ItemsAdapter itemsAdapter;
     ListView lvItems;
@@ -23,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        db = ListKeeperDatabaseHelper.getInstance(getApplicationContext());
         lvItems = (ListView)findViewById(R.id.lvItems);
         readItems();
         itemsAdapter = new ItemsAdapter(this, items);
@@ -88,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
         String itemText = etNewItem.getText().toString();
         Item newItem = new Item(itemText);
         long id = db.addItem(newItem);
-
         newItem.id = id;
+
         itemsAdapter.add(newItem);
         etNewItem.setText("");
     }
