@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by Mark Diez on 9/20/2016.
  */
 public class Item {
-    public int id;
+    public long id;
     public String task;
     public String createdAt;
     public String updatedAt;
@@ -17,6 +17,11 @@ public class Item {
         this.task = "";
         this.createdAt = getCurrentDate();
         this.updatedAt = getCurrentDate();
+    }
+
+    public Item(String task) {
+        this();
+        this.task = task;
     }
 
     // Get current time for updatedAt and createdAt
