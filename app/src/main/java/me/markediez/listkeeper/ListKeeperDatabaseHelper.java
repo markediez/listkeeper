@@ -22,7 +22,7 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
 
     // Database Info
     private static final String DATABASE_NAME = "listKeeperDatabase";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Table Names
     private static final String TABLE_ITEMS = "items";
@@ -30,6 +30,7 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
     // Items Table Columns
     private static final String KEY_ITEM_ID = "id";
     private static final String KEY_ITEM_TASK = "task";
+    private static final String KEY_ITEM_DONE = "done";
     private static final String KEY_ITEM_CREATED_AT = "createdAt";
     private static final String KEY_ITEM_UPDATED_AT = "updatedAt";
 
@@ -52,7 +53,8 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
         String CREATE_ITEMS_TABLE = "CREATE TABLE " + TABLE_ITEMS +
                 "(" +
                     KEY_ITEM_ID + " INTEGER PRIMARY KEY," +
-                    KEY_ITEM_TASK + " TEXT," +
+                    KEY_ITEM_TASK + " TEXT NOT NULL," +
+                    KEY_ITEM_DONE + " BOOLEAN DEFAULT FALSE NOT NULL," +
                     KEY_ITEM_CREATED_AT + " TEXT," +
                     KEY_ITEM_UPDATED_AT + " TEXT" +
                 ")";
@@ -126,7 +128,8 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     Item newItem = new Item();
-                    newItem.id = cursor.getInt(cursor.getColumnIndex(KEY_ITEM_ID));
+                    newItem.id = cursor.getLong(cursor.getColumnIndex(KEY_ITEM_ID));
+                    newItem.done = cursor.getInt(cursor.getColumnIndex(KEY_ITEM_DONE)) > 0;
                     newItem.task = cursor.getString(cursor.getColumnIndex(KEY_ITEM_TASK));
                     newItem.createdAt = cursor.getString(cursor.getColumnIndex(KEY_ITEM_CREATED_AT));
                     newItem.updatedAt = cursor.getString(cursor.getColumnIndex(KEY_ITEM_UPDATED_AT));
@@ -151,6 +154,7 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_ITEM_TASK, item.task);
+        values.put(KEY_ITEM_DONE, item.done);
         values.put(KEY_ITEM_UPDATED_AT, item.getCurrentDate());
 
         return db.update(TABLE_ITEMS, values, KEY_ITEM_ID + " = ?", new String[] {Long.toString(item.id)});

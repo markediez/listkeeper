@@ -61,10 +61,15 @@ public class MainActivity extends AppCompatActivity {
                 // a bitwise operator is valid in an argument that takes an intl
                 // http://stackoverflow.com/questions/18881817/removing-strikethrough-from-textview
                 if (task.getPaintFlags() == Paint.STRIKE_THRU_TEXT_FLAG) {
+                    items.get(pos).done = false;
                     task.setPaintFlags(task.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
                 } else {
+                    // Set as done
+                    items.get(pos).done = true;
                     task.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 }
+
+                db.updateItem(items.get(pos));
             }
         });
     }

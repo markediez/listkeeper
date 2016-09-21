@@ -25,7 +25,7 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] Mark items as done
+* [x] Mark items as done
 * [ ] Expand to have a list of to-do lists
 * [ ] Create a template to-do list e.g. Camping To Do list
 

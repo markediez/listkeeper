@@ -1,6 +1,7 @@
 package me.markediez.listkeeper;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,14 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
 
         // Populate data into view
         tvTask.setText(item.task);
+
+        // If the item is done, strikethrough
+        // The else part may seem redundant but without it the listview recycles the strikthrough
+        if (item.done) {
+            tvTask.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            tvTask.setPaintFlags(tvTask.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+        }
 
         // Return for rendering
         return convertView;

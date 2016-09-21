@@ -11,12 +11,14 @@ import java.util.Date;
  */
 public class Item {
     public long id;
+    public boolean done;
     public String task;
     public String createdAt;
     public String updatedAt;
 
     public Item() {
         this.task = "";
+        this.done = false;
         this.createdAt = getCurrentDate();
         this.updatedAt = getCurrentDate();
     }
@@ -24,6 +26,12 @@ public class Item {
     public Item(String task) {
         this();
         this.task = task;
+    }
+
+    public Item(String task, boolean done) {
+        this();
+        this.task = task;
+        this.done = done;
     }
 
     // Get current time for updatedAt and createdAt
