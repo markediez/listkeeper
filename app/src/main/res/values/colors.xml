@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="textColor">#000000</color>
+    <color name="taskComplete">#E0E0E0</color>
+    <color name="taskIncomplete">#FFFFFF</color>
+    <color name="checkbox">#757575</color>
 </resources>
