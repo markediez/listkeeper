@@ -31,13 +31,28 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
+        android:id="@+id/bSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/etItem"
+        android:layout_toRightOf="@+id/bDelete"
+        android:layout_toEndOf="@+id/bDelete"
+
         android:text="Save"
-        android:id="@+id/button"
+        android:onClick="onSave" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:id="@+id/bDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/etItem"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="onSave" />
+
+        android:backgroundTint="#F44336"
+        android:text="Delete"
+        android:textColor="#FFFFFF"
+        android:onClick="onDelete" />
 
 </RelativeLayout>

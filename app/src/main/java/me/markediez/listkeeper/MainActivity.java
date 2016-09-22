@@ -3,14 +3,18 @@ package me.markediez.listkeeper;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -19,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Item> items;
     ItemsAdapter itemsAdapter;
     ListView lvItems;
-    // TODO: Switch ArrayList<String> to ArrayList<Item> and figure out how to make an adapter with custom class
+    // TODO: Mess with textview colors on active and done task
     private final int REQUEST_CODE_EDIT = 1;
 
     @Override
@@ -55,24 +59,41 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
                 TextView task = (TextView)view.findViewById(R.id.tvTask);
+                CheckBox cbTask = (CheckBox)view.findViewById(R.id.cbTask);
+                RelativeLayout container = (RelativeLayout) view.findViewById(R.id.llListView);
 
                 // TODO: Not quite sure how:
                 // ~ Paint.STRIKE_THRU_TEXT_FLAG works to removee strike through
                 // a bitwise operator is valid in an argument that takes an intl
                 // http://stackoverflow.com/questions/18881817/removing-strikethrough-from-textview
-                if (task.getPaintFlags() == Paint.STRIKE_THRU_TEXT_FLAG) {
+                if (task.getPaintFlags() == (task.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG)) {
                     items.get(pos).done = false;
-                    task.setPaintFlags(task.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
                 } else {
                     // Set as done
                     items.get(pos).done = true;
-                    task.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 }
 
+                toggleTask(task, cbTask, container);
                 db.updateItem(items.get(pos));
             }
         });
     }
+
+    private void toggleTask(TextView task, CheckBox cbTask,  RelativeLayout container) {
+        if (task.getPaintFlags() == (task.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG)) {
+            task.setPaintFlags(task.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+            task.setAlpha(1.0f);
+            container.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.taskIncomplete));
+            cbTask.setChecked(false);
+        } else {
+            // Set as done
+            task.setPaintFlags(task.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            task.setAlpha(0.5f);
+            container.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.taskComplete));
+            cbTask.setChecked(true);
+        }
+    }
+
 
     private void readItems() {
         items = new ArrayList<Item>();
@@ -89,9 +110,17 @@ public class MainActivity extends AppCompatActivity {
         switch(requestCode) {
             case REQUEST_CODE_EDIT:
                 if (resultCode == RESULT_OK) {
-                    items.get(data.getExtras().getInt("itemPosition")).task = data.getExtras().getString("editedItem");
-                    db.updateItem(items.get(data.getExtras().getInt("itemPosition")));
-                    itemsAdapter.notifyDataSetChanged();
+                    int position = data.getExtras().getInt("itemPosition");
+
+                    if (data.getExtras().getBoolean("delete")) {
+                        db.deleteItem(items.get(position));
+                        items.remove(position);
+                        itemsAdapter.notifyDataSetChanged();
+                    } else {
+                        items.get(position).task = data.getExtras().getString("editedItem");
+                        db.updateItem(items.get(data.getExtras().getInt("itemPosition")));
+                        itemsAdapter.notifyDataSetChanged();
+                    }
                 }
 
                 break;
