@@ -50,6 +50,13 @@ The first hurdle was retaining the onclick and onlongclick behavior of the list 
 This was solved by simply adding focusable = "false" and focusableOnTouchMode = "false" on the element.
 The next big hurdle was keeping the ripple effect only on the view which was solved by specifying drawSelectorOnTop = "true" on the listview and setting the background of the checkbox as transparent. 
 
+Next big hurdle was trying to programatically change the color of a drawable for my priority tags. 
+Multiple stack overflow sources have noted to essentially get the drawable, cast it as a GradientDrawable, then set the resource color.
+This made my app crash stating that it was pointing to null. 
+As a last resort after an hour or two of frustration, I "hard coded" it by just creating each drawable then programatically change the resource for it. 
+As soon as I started writing about it here, I realized that I've been getting the background of my imageView, not the source (which is just getDrawable)... 
+ 
+
 ## License
 
     Copyright 2016 Mark Diez
