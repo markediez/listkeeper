@@ -28,6 +28,7 @@ The following **additional** features are implemented:
 * [x] Mark items as done
 * [ ] Expand to have a list of to-do lists
 * [ ] Create a template to-do list e.g. Camping To Do list
+* [ ] Add a filter to sort items by priority, by tasks finished, etc.
 
 ## Video Walkthrough 
 
@@ -41,6 +42,13 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 So far, the biggest challenge was setting up Oracle Virtual Box for Genymotion. For some reason, version 5.x disables the host's
 internet. I still don't understand how keeping a shortcut and startup icon when installing solved the issue.
+
+Figuring out how to override default behavior was harder than I thought. 
+In particular, it took me hours to get the behavior I wanted for single click and long click with each list view item. 
+I wanted (and succeded) to have a checkbox to check off an item and when it checks off have a strikethrough on the text.
+The first hurdle was retaining the onclick and onlongclick behavior of the list view when another focusable object exists (like a checkbox or another button).
+This was solved by simply adding focusable = "false" and focusableOnTouchMode = "false" on the element.
+The next big hurdle was keeping the ripple effect only on the view which was solved by specifying drawSelectorOnTop = "true" on the listview and setting the background of the checkbox as transparent. 
 
 ## License
 
