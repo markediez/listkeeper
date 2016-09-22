@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">List Keeper</string>
+
+    <string-array name="priority_array">
+        <item>Low Priority</item>
+        <item>Normal Priority</item>
+        <item>High Priority</item>
+    </string-array>
 </resources>

@@ -29,30 +29,51 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Edit Priority Below"
+        android:id="@+id/textView2"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/etItem"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spPriority"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <Button
         style="?android:attr/buttonStyleSmall"
         android:id="@+id/bSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etItem"
-        android:layout_toRightOf="@+id/bDelete"
-        android:layout_toEndOf="@+id/bDelete"
 
         android:text="Save"
-        android:onClick="onSave" />
+        android:onClick="onSave"
+        android:layout_below="@+id/spPriority"
+        android:layout_toRightOf="@+id/bDelete"
+        android:layout_toEndOf="@+id/bDelete" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:id="@+id/bDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etItem"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
 
         android:backgroundTint="#F44336"
         android:text="Delete"
         android:textColor="#FFFFFF"
-        android:onClick="onDelete" />
+        android:onClick="onDelete"
+        android:layout_below="@+id/spPriority"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
 
 </RelativeLayout>

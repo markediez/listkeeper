@@ -15,14 +15,14 @@ import java.util.List;
  */
 public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
     // Debugging
-    private static String TAG = "ListKeeperDatabaseHelper";
+    private static String TAG = "DB Helper";
 
     // Singleton Instance
     private static ListKeeperDatabaseHelper sInstance;
 
     // Database Info
     private static final String DATABASE_NAME = "listKeeperDatabase";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     // Table Names
     private static final String TABLE_ITEMS = "items";
@@ -31,6 +31,7 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_ITEM_ID = "id";
     private static final String KEY_ITEM_TASK = "task";
     private static final String KEY_ITEM_DONE = "done";
+    private static final String KEY_ITEM_PRIORITY = "priority";
     private static final String KEY_ITEM_CREATED_AT = "createdAt";
     private static final String KEY_ITEM_UPDATED_AT = "updatedAt";
 
@@ -54,6 +55,7 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
                 "(" +
                     KEY_ITEM_ID + " INTEGER PRIMARY KEY," +
                     KEY_ITEM_TASK + " TEXT NOT NULL," +
+                    KEY_ITEM_PRIORITY + " INTEGER DEFAULT 1 NOT NULL," +
                     KEY_ITEM_DONE + " BOOLEAN DEFAULT FALSE NOT NULL," +
                     KEY_ITEM_CREATED_AT + " TEXT," +
                     KEY_ITEM_UPDATED_AT + " TEXT" +
@@ -130,6 +132,7 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
                     Item newItem = new Item();
                     newItem.id = cursor.getLong(cursor.getColumnIndex(KEY_ITEM_ID));
                     newItem.done = cursor.getInt(cursor.getColumnIndex(KEY_ITEM_DONE)) > 0;
+                    newItem.priority = cursor.getInt(cursor.getColumnIndex(KEY_ITEM_PRIORITY));
                     newItem.task = cursor.getString(cursor.getColumnIndex(KEY_ITEM_TASK));
                     newItem.createdAt = cursor.getString(cursor.getColumnIndex(KEY_ITEM_CREATED_AT));
                     newItem.updatedAt = cursor.getString(cursor.getColumnIndex(KEY_ITEM_UPDATED_AT));

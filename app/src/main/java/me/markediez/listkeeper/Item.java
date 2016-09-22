@@ -11,6 +11,7 @@ import java.util.Date;
  */
 public class Item {
     public long id;
+    public int priority;
     public boolean done;
     public String task;
     public String createdAt;
@@ -18,6 +19,7 @@ public class Item {
 
     public Item() {
         this.task = "";
+        this.priority = 1;
         this.done = false;
         this.createdAt = getCurrentDate();
         this.updatedAt = getCurrentDate();

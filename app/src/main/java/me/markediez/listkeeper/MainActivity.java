@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(MainActivity.this, EditItemActivity.class);
                 i.putExtra("itemToEdit", items.get(pos).task);
                 i.putExtra("itemPosition", pos);
+                i.putExtra("itemPriority", items.get(pos).priority);
                 startActivityForResult(i, REQUEST_CODE_EDIT);
 
                 return true;
@@ -118,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                         itemsAdapter.notifyDataSetChanged();
                     } else {
                         items.get(position).task = data.getExtras().getString("editedItem");
+                        items.get(position).priority = data.getExtras().getInt("itemPriority");
                         db.updateItem(items.get(data.getExtras().getInt("itemPosition")));
                         itemsAdapter.notifyDataSetChanged();
                     }

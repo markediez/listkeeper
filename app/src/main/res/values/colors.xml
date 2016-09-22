@@ -8,4 +8,8 @@
     <color name="taskComplete">#E0E0E0</color>
     <color name="taskIncomplete">#FFFFFF</color>
     <color name="checkbox">#757575</color>
+
+    <color name="highPriority">#F44336</color>
+    <color name="normalPriority">#EEEEEE</color>
+    <color name="lowPriority">#FFEB3B</color>
 </resources>
