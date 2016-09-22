@@ -10,6 +10,6 @@
     <color name="checkbox">#757575</color>
 
     <color name="highPriority">#F44336</color>
-    <color name="normalPriority">#EEEEEE</color>
-    <color name="lowPriority">#FFEB3B</color>
+    <color name="normalPriority">#FFEB3B</color>
+    <color name="lowPriority">#9E9E9E</color>
 </resources>
