@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+// TODO: Add delete functionality
+// TODO: Add priority functionality
 public class EditItemActivity extends AppCompatActivity {
     EditText item;
 
@@ -22,6 +24,17 @@ public class EditItemActivity extends AppCompatActivity {
         Intent data = new Intent();
         data.putExtra("editedItem", item.getText().toString());
         data.putExtra("itemPosition", getIntent().getIntExtra("itemPosition", -1));
+        data.putExtra("delete", false);
+
+        setResult(RESULT_OK, data);
+        finish();
+    }
+
+    public void onDelete(View v) {
+        Intent data = new Intent();
+        data.putExtra("itemPosition", getIntent().getIntExtra("itemPosition", -1));
+        data.putExtra("delete", true);
+
         setResult(RESULT_OK, data);
         finish();
     }
