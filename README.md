@@ -4,7 +4,7 @@
 
 Submitted by: **Mark Diez**
 
-Time spent: **2** hours spent in total
+Time spent: **16.5** hours spent in total
 
 ## User Stories
 
