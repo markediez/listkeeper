@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,14 +50,14 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         if (item.done) {
             convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.taskComplete));
             tvTask.setPaintFlags(tvTask.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            ((ColorDrawable)ivTag.getDrawable()).setColor(ContextCompat.getColor(convertView.getContext(), R.color.checkbox));
+            ivTag.setBackgroundColor(ContextCompat.getColor(convertView.getContext(), R.color.checkbox));
             tvTask.setAlpha(0.5f);
             tvDueDate.setAlpha(0.5f);
             cbTask.setChecked(true);
         } else {
             convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.taskIncomplete));
+            ivTag.setBackgroundColor(ContextCompat.getColor(convertView.getContext(), PriorityAdapter.getTagColor(item.priority)));
             tvTask.setPaintFlags(tvTask.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
-            ((ColorDrawable)ivTag.getDrawable()).setColor(ContextCompat.getColor(convertView.getContext(), PriorityAdapter.getTagColor(getItem(pos).priority)));
             tvTask.setAlpha(1.0f);
             tvDueDate.setAlpha(1.0f);
             cbTask.setChecked(false);

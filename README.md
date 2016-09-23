@@ -34,7 +34,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/kV8kOA3.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/C4vqUxL.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
@@ -55,6 +55,10 @@ Multiple stack overflow sources have noted to essentially get the drawable, cast
 This made my app crash stating that it was pointing to null. 
 As a last resort after an hour or two of frustration, I "hard coded" it by just creating each drawable then programatically change the resource for it. 
 As soon as I started writing about it here, I realized that I've been getting the background of my imageView, not the source (which is just getDrawable)... 
+
+I had some issue with retaining different tags to represent the priority of each item in the listview. This was caused by trying to change the color using a drawable.
+It was fixed by using backround instead of src in the xml element to define the color. By doing this, I could set the color of each item individually instead of changing the drawable
+which affected everything because everything in Java but primitives are reference types.
  
 
 ## License

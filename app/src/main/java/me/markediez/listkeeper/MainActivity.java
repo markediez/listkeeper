@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -88,17 +89,19 @@ public class MainActivity extends AppCompatActivity {
             task.setPaintFlags(task.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
             task.setAlpha(1.0f);
             dueDate.setAlpha(1.0f);
-            ((ColorDrawable)ivTag.getDrawable()).setColor(ContextCompat.getColor(context, PriorityAdapter.getTagColor(items.get(position).priority)));
-            container.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.taskIncomplete));
+            ivTag.setAlpha(1.0f);
+            ivTag.setBackgroundColor(ContextCompat.getColor(context, PriorityAdapter.getTagColor(items.get(position).priority)));
+
+            container.setBackgroundColor(ContextCompat.getColor(context, R.color.taskIncomplete));
             cbTask.setChecked(false);
         } else {
             // Set as done
             task.setPaintFlags(task.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            ((ColorDrawable)ivTag.getDrawable()).setColor(ContextCompat.getColor(context, R.color.checkbox));
             task.setAlpha(0.5f);
             dueDate.setAlpha(0.5f);
             ivTag.setAlpha(0.9f);
-            container.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.taskComplete));
+            ivTag.setBackgroundColor(ContextCompat.getColor(context, R.color.checkbox));
+            container.setBackgroundColor(ContextCompat.getColor(context, R.color.taskComplete));
             cbTask.setChecked(true);
         }
     }

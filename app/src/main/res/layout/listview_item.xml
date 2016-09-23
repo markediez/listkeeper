@@ -33,7 +33,7 @@
         android:layout_marginBottom="4dp"/>
 
     <ImageView
-        android:src="@color/highPriority"
+        android:background="@color/highPriority"
         android:layout_width="10dp"
         android:layout_height="40dp"
         android:id="@+id/ivTag"
