@@ -31,6 +31,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         // Check if we can recycle a previous view, else inflate a new view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.listview_item, parent, false);
+
         }
 
         // Lookup view for data population
@@ -55,7 +56,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         } else {
             convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.taskIncomplete));
             tvTask.setPaintFlags(tvTask.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
-            ((ColorDrawable)ivTag.getDrawable()).setColor(ContextCompat.getColor(convertView.getContext(), PriorityAdapter.getTagColor(item.priority)));
+            ((ColorDrawable)ivTag.getDrawable()).setColor(ContextCompat.getColor(convertView.getContext(), PriorityAdapter.getTagColor(getItem(pos).priority)));
             tvTask.setAlpha(1.0f);
             tvDueDate.setAlpha(1.0f);
             cbTask.setChecked(false);

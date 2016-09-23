@@ -162,7 +162,8 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_ITEM_TASK, item.task);
         values.put(KEY_ITEM_DONE, item.done);
-        values.put(KEY_ITEM_DUE_DATE, item.dueDate);
+        values.put(KEY_ITEM_PRIORITY, item.priority);
+        values.put(KEY_ITEM_DUE_DATE, item.getReadableDueDate());
         values.put(KEY_ITEM_UPDATED_AT, item.formatDate(new Date()));
 
         return db.update(TABLE_ITEMS, values, KEY_ITEM_ID + " = ?", new String[] {Long.toString(item.id)});

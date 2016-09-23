@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -24,6 +25,7 @@ public class EditItemActivity extends AppCompatActivity {
     List<String> priorities;
     PriorityAdapter priorityAdapter;
     DatePicker dpDueDate;
+    CheckBox cbDueDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,19 @@ public class EditItemActivity extends AppCompatActivity {
 
     public void setupDueDate(String dueDate) {
         dpDueDate = (DatePicker)findViewById(R.id.dpDueDate);
+        cbDueDate = (CheckBox) findViewById(R.id.cbDueDate);
+
+
         if (!dueDate.equals("")) {
+            // Work around because it does not work with .setChecked(true) alone
+            // https://www.bountysource.com/issues/26094723-checkbox-setchecked-not-working
+            cbDueDate.post(new Runnable() {
+                @Override
+                public void run() {
+                    cbDueDate.setChecked(true);
+                }
+            });
+
             try {
                 DateFormat df = Item.getDateFormat();
                 Date date = df.parse(dueDate);
@@ -50,6 +64,9 @@ public class EditItemActivity extends AppCompatActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        } else {
+            dpDueDate.setVisibility(View.INVISIBLE);
+            cbDueDate.setChecked(false);
         }
     }
 
@@ -62,10 +79,24 @@ public class EditItemActivity extends AppCompatActivity {
         spPriority.setAdapter(priorityAdapter);
     }
 
+    public void toggleDueDate(View v) {
+        if (cbDueDate.isChecked()) {
+            // due date will be enabled
+            dpDueDate.setVisibility(View.VISIBLE);
+        } else {
+            // due date will be disabled
+            dpDueDate.setVisibility(View.INVISIBLE);
+        }
+    }
+
     public void onSave(View v) {
         // yyyy-MM-dd HH:mm:SS.sss format
         // +1 on month is necessary to get proper month
-        String newDueDate = dpDueDate.getYear() + "-" + (dpDueDate.getMonth() + 1) + "-" + dpDueDate.getDayOfMonth() + " 00:00:00.000";
+        String newDueDate = "";
+        if(cbDueDate.isChecked()) {
+            newDueDate = dpDueDate.getYear() + "-" + (dpDueDate.getMonth() + 1) + "-" + dpDueDate.getDayOfMonth() + " 00:00:00.000";
+        }
+
         Intent data = new Intent();
         data.putExtra("editedItem", item.getText().toString());
         data.putExtra("itemPosition", getIntent().getIntExtra("itemPosition", -1));

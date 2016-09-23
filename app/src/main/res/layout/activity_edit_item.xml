@@ -79,20 +79,6 @@
             android:text="Due Date"
             android:textColor="@color/header" />
 
-        <DatePicker
-            android:id="@+id/dpDueDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:datePickerMode="spinner"
-            android:layout_below="@+id/textView3"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="10dp"
-
-            android:spinnersShown="false" />
-
         <Button
             style="?android:attr/buttonStyleSmall"
             android:id="@+id/bSave"
@@ -121,5 +107,27 @@
             android:layout_alignBottom="@+id/bSave"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"/>
+
+        <DatePicker
+            android:id="@+id/dpDueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+
+            android:spinnersShown="false"
+            android:layout_below="@+id/textView3"
+            android:layout_centerHorizontal="true" />
+
+        <CheckBox
+            android:text="Enable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cbDueDate"
+            android:onClick="toggleDueDate"
+            android:layout_below="@+id/dpDueDate"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 </ScrollView>
