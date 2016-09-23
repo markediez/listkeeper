@@ -52,14 +52,34 @@ public class PriorityAdapter extends ArrayAdapter<String> {
         GradientDrawable gdTag = (GradientDrawable) ivTag.getDrawable();
 
         // TODO: Clean up. Maybe get the list of colors in an array?
-        if (str.equalsIgnoreCase("Low Priority")) {
-            gdTag.setColor(ContextCompat.getColor(convertView.getContext(), R.color.lowPriority));
-        } else if (str.equalsIgnoreCase("Normal Priority")) {
-            gdTag.setColor(ContextCompat.getColor(convertView.getContext(), R.color.normalPriority));
-        } else {
-            gdTag.setColor(ContextCompat.getColor(convertView.getContext(), R.color.highPriority));
-        }
+        gdTag.setColor(ContextCompat.getColor(convertView.getContext(), getTagColor(str)));
 
         return convertView;
+    }
+
+    public static int getTagColor(String priority) {
+        int color = -1;
+        if (priority.equalsIgnoreCase("Low Priority")) {
+            color =  R.color.lowPriority;
+        } else if (priority.equalsIgnoreCase("Normal Priority")) {
+            color = R.color.normalPriority;
+        } else {
+            color = R.color.highPriority;
+        }
+
+        return color;
+    }
+
+    public static int getTagColor(int priority) {
+        int color = -1;
+        if (priority == 0) {
+            color =  R.color.lowPriority;
+        } else if (priority == 1) {
+            color = R.color.normalPriority;
+        } else {
+            color = R.color.highPriority;
+        }
+
+        return color;
     }
 }

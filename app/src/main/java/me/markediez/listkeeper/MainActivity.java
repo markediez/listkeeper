@@ -1,7 +1,11 @@
 package me.markediez.listkeeper;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -9,22 +13,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-
+// TODO: Show priority on listview
 public class MainActivity extends AppCompatActivity {
     ListKeeperDatabaseHelper db;
     ArrayList<Item> items;
     ItemsAdapter itemsAdapter;
     ListView lvItems;
-    // TODO: Mess with textview colors on active and done task
+
     private final int REQUEST_CODE_EDIT = 1;
 
     @Override
@@ -62,11 +63,12 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
                 TextView task = (TextView)view.findViewById(R.id.tvTask);
                 CheckBox cbTask = (CheckBox)view.findViewById(R.id.cbTask);
+                ImageView ivTag = (ImageView)view.findViewById(R.id.ivTag);
                 RelativeLayout container = (RelativeLayout) view.findViewById(R.id.llListView);
 
                 // TODO: Not quite sure how:
                 // ~ Paint.STRIKE_THRU_TEXT_FLAG works to removee strike through
-                // a bitwise operator is valid in an argument that takes an intl
+                // a bitwise operator is valid in an argument that takes an int
                 // http://stackoverflow.com/questions/18881817/removing-strikethrough-from-textview
                 if (task.getPaintFlags() == (task.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG)) {
                     items.get(pos).done = false;
@@ -75,27 +77,29 @@ public class MainActivity extends AppCompatActivity {
                     items.get(pos).done = true;
                 }
 
-                toggleTask(task, cbTask, container);
+                toggleTask(task, cbTask, ivTag, pos, container, view.getContext());
                 db.updateItem(items.get(pos));
             }
         });
     }
 
-    private void toggleTask(TextView task, CheckBox cbTask,  RelativeLayout container) {
+    private void toggleTask(TextView task, CheckBox cbTask, ImageView ivTag, int position,  RelativeLayout container, Context context) {
         if (task.getPaintFlags() == (task.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG)) {
             task.setPaintFlags(task.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
             task.setAlpha(1.0f);
+            ((ColorDrawable)ivTag.getDrawable()).setColor(ContextCompat.getColor(context, PriorityAdapter.getTagColor(items.get(position).priority)));
             container.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.taskIncomplete));
             cbTask.setChecked(false);
         } else {
             // Set as done
             task.setPaintFlags(task.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            ((ColorDrawable)ivTag.getDrawable()).setColor(ContextCompat.getColor(context, R.color.checkbox));
             task.setAlpha(0.5f);
+            ivTag.setAlpha(0.9f);
             container.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.taskComplete));
             cbTask.setChecked(true);
         }
     }
-
 
     private void readItems() {
         items = new ArrayList<Item>();

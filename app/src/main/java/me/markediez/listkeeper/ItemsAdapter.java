@@ -2,12 +2,14 @@ package me.markediez.listkeeper;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         // Lookup view for data population
         TextView tvTask = (TextView) convertView.findViewById(R.id.tvTask);
         CheckBox cbTask = (CheckBox) convertView.findViewById(R.id.cbTask);
+        ImageView ivTag = (ImageView) convertView.findViewById(R.id.ivTag);
 
         // Populate data into view
         tvTask.setText(item.task);
@@ -43,11 +46,13 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         if (item.done) {
             convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.taskComplete));
             tvTask.setPaintFlags(tvTask.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            ((ColorDrawable)ivTag.getDrawable()).setColor(ContextCompat.getColor(convertView.getContext(), R.color.checkbox));
             tvTask.setAlpha(0.5f);
             cbTask.setChecked(true);
         } else {
             convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.taskIncomplete));
             tvTask.setPaintFlags(tvTask.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+            ((ColorDrawable)ivTag.getDrawable()).setColor(ContextCompat.getColor(convertView.getContext(), PriorityAdapter.getTagColor(item.priority)));
             tvTask.setAlpha(1.0f);
             cbTask.setChecked(false);
         }
