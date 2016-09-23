@@ -6,70 +6,111 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
+        android:background="@android:color/white"
         android:focusable="true"
         android:focusableInTouchMode="true"
         tools:context="me.markediez.listkeeper.EditItemActivity">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Edit Item Below:"
             android:id="@+id/textView"
+            android:background="@color/colorAccent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:padding="10dp"
+
+            android:text="Item"
+            android:textColor="@color/header"
+
+             />
 
         <EditText
+            android:id="@+id/etItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/etItem"
             android:layout_below="@+id/textView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+
+            android:hint="Task Name" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Edit Priority Below"
             android:id="@+id/textView2"
-            android:layout_marginTop="30dp"
-            android:layout_below="@+id/etItem"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <Spinner
+            android:background="@color/colorAccent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/etItem"
+            android:layout_alignLeft="@+id/etItem"
+            android:layout_alignStart="@+id/etItem"
+            android:padding="10dp"
+
+            android:text="Priority"
+            android:textColor="@color/header" />
+
+        <Spinner
             android:id="@+id/spPriority"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/textView2"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:background="@color/colorAccent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spPriority"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+
+            android:text="Due Date"
+            android:textColor="@color/header" />
+
+        <DatePicker
+            android:id="@+id/dpDueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:layout_below="@+id/textView3"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10dp"
+
+            android:spinnersShown="false" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
             android:id="@+id/bSave"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
 
             android:text="Save"
             android:onClick="onSave"
+            android:layout_toStartOf="@+id/bDelete"
+            android:layout_toLeftOf="@+id/bDelete"
             android:layout_below="@+id/dpDueDate"
-            android:layout_toRightOf="@+id/bDelete"
-            android:layout_toEndOf="@+id/bDelete"
             android:layout_marginTop="63dp" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
             android:id="@+id/bDelete"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
 
             android:backgroundTint="#F44336"
@@ -78,30 +119,7 @@
             android:onClick="onDelete"
             android:layout_alignBaseline="@+id/bSave"
             android:layout_alignBottom="@+id/bSave"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <DatePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:datePickerMode="spinner"
-            android:spinnersShown="false"
-            android:id="@+id/dpDueDate"
-            android:layout_below="@+id/textView3"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Due Date"
-            android:id="@+id/textView3"
-            android:layout_marginTop="38dp"
-            android:layout_below="@+id/spPriority"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
 </ScrollView>

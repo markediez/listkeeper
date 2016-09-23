@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
                 TextView task = (TextView)view.findViewById(R.id.tvTask);
+                TextView dueDate = (TextView) view.findViewById(R.id.tvDueDate);
                 CheckBox cbTask = (CheckBox)view.findViewById(R.id.cbTask);
                 ImageView ivTag = (ImageView)view.findViewById(R.id.ivTag);
                 RelativeLayout container = (RelativeLayout) view.findViewById(R.id.llListView);
@@ -76,16 +77,17 @@ public class MainActivity extends AppCompatActivity {
                     items.get(pos).done = true;
                 }
 
-                toggleTask(task, cbTask, ivTag, pos, container, view.getContext());
+                toggleTask(task, dueDate, cbTask, ivTag, pos, container, view.getContext());
                 db.updateItem(items.get(pos));
             }
         });
     }
 
-    private void toggleTask(TextView task, CheckBox cbTask, ImageView ivTag, int position,  RelativeLayout container, Context context) {
+    private void toggleTask(TextView task, TextView dueDate, CheckBox cbTask, ImageView ivTag, int position,  RelativeLayout container, Context context) {
         if (task.getPaintFlags() == (task.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG)) {
             task.setPaintFlags(task.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
             task.setAlpha(1.0f);
+            dueDate.setAlpha(1.0f);
             ((ColorDrawable)ivTag.getDrawable()).setColor(ContextCompat.getColor(context, PriorityAdapter.getTagColor(items.get(position).priority)));
             container.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.taskIncomplete));
             cbTask.setChecked(false);
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             task.setPaintFlags(task.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             ((ColorDrawable)ivTag.getDrawable()).setColor(ContextCompat.getColor(context, R.color.checkbox));
             task.setAlpha(0.5f);
+            dueDate.setAlpha(0.5f);
             ivTag.setAlpha(0.9f);
             container.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.taskComplete));
             cbTask.setChecked(true);

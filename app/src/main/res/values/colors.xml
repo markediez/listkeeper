@@ -12,4 +12,6 @@
     <color name="highPriority">#F44336</color>
     <color name="normalPriority">#3F51B5</color>
     <color name="lowPriority">#9E9E9E</color>
+
+    <color name="header">#FFFFFF</color>
 </resources>
