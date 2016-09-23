@@ -3,6 +3,7 @@ package me.markediez.listkeeper;
 import android.util.Log;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,6 +15,7 @@ public class Item {
     public int priority;
     public boolean done;
     public String task;
+    public String dueDate;
     public String createdAt;
     public String updatedAt;
 
@@ -21,8 +23,9 @@ public class Item {
         this.task = "";
         this.priority = 1;
         this.done = false;
-        this.createdAt = getCurrentDate();
-        this.updatedAt = getCurrentDate();
+        this.dueDate = "";
+        this.createdAt = formatDate(new Date());
+        this.updatedAt = formatDate(new Date());
     }
 
     public Item(String task) {
@@ -30,17 +33,28 @@ public class Item {
         this.task = task;
     }
 
-    public Item(String task, boolean done) {
-        this();
-        this.task = task;
-        this.done = done;
+    public String formatDate(Date date) {
+        DateFormat df = getDateFormat();
+
+        return df.format(date);
     }
 
-    // Get current time for updatedAt and createdAt
-    public String getCurrentDate() {
-        Date currDate = new Date();
-        DateFormat df = new SimpleDateFormat("y-M-d HH:mm:ss.SSS");
+    public static DateFormat getDateFormat() {
+        return new SimpleDateFormat("y-M-d HH:mm:ss.SSS");
+    }
 
-        return df.format(currDate);
+    public String getReadableDueDate() {
+        String prettyString = "";
+        try {
+            DateFormat df = getDateFormat();
+            Date d = df.parse(this.dueDate);
+
+            df = new SimpleDateFormat("dd MMMM yyyy");
+            prettyString = df.format(d);
+        } catch (ParseException e) {
+            e.getStackTrace();
+        }
+
+        return prettyString;
     }
 }

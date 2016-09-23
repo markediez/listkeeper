@@ -35,11 +35,13 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
 
         // Lookup view for data population
         TextView tvTask = (TextView) convertView.findViewById(R.id.tvTask);
+        TextView tvDueDate = (TextView) convertView.findViewById(R.id.tvDueDate);
         CheckBox cbTask = (CheckBox) convertView.findViewById(R.id.cbTask);
         ImageView ivTag = (ImageView) convertView.findViewById(R.id.ivTag);
 
         // Populate data into view
         tvTask.setText(item.task);
+        tvDueDate.setText(item.getReadableDueDate());
 
         // If the item is done, strikethrough
         // The else part may seem redundant but without it the listview recycles the strikthrough
@@ -48,12 +50,14 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
             tvTask.setPaintFlags(tvTask.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             ((ColorDrawable)ivTag.getDrawable()).setColor(ContextCompat.getColor(convertView.getContext(), R.color.checkbox));
             tvTask.setAlpha(0.5f);
+            tvDueDate.setAlpha(0.5f);
             cbTask.setChecked(true);
         } else {
             convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.taskIncomplete));
             tvTask.setPaintFlags(tvTask.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
             ((ColorDrawable)ivTag.getDrawable()).setColor(ContextCompat.getColor(convertView.getContext(), PriorityAdapter.getTagColor(item.priority)));
             tvTask.setAlpha(1.0f);
+            tvDueDate.setAlpha(1.0f);
             cbTask.setChecked(false);
         }
 

@@ -2,10 +2,8 @@ package me.markediez.listkeeper;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-// TODO: Show priority on listview
+
 public class MainActivity extends AppCompatActivity {
     ListKeeperDatabaseHelper db;
     ArrayList<Item> items;
@@ -51,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 i.putExtra("itemToEdit", items.get(pos).task);
                 i.putExtra("itemPosition", pos);
                 i.putExtra("itemPriority", items.get(pos).priority);
+                i.putExtra("itemDueDate", items.get(pos).dueDate);
                 startActivityForResult(i, REQUEST_CODE_EDIT);
 
                 return true;
@@ -125,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         items.get(position).task = data.getExtras().getString("editedItem");
                         items.get(position).priority = data.getExtras().getInt("itemPriority");
+                        items.get(position).dueDate = data.getExtras().getString("itemDueDate");
                         db.updateItem(items.get(data.getExtras().getInt("itemPosition")));
                         itemsAdapter.notifyDataSetChanged();
                     }

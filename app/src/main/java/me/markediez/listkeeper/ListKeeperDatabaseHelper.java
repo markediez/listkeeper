@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
 
     // Database Info
     private static final String DATABASE_NAME = "listKeeperDatabase";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     // Table Names
     private static final String TABLE_ITEMS = "items";
@@ -32,6 +33,7 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_ITEM_TASK = "task";
     private static final String KEY_ITEM_DONE = "done";
     private static final String KEY_ITEM_PRIORITY = "priority";
+    private static final String KEY_ITEM_DUE_DATE = "dueDate";
     private static final String KEY_ITEM_CREATED_AT = "createdAt";
     private static final String KEY_ITEM_UPDATED_AT = "updatedAt";
 
@@ -57,8 +59,9 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
                     KEY_ITEM_TASK + " TEXT NOT NULL," +
                     KEY_ITEM_PRIORITY + " INTEGER DEFAULT 1 NOT NULL," +
                     KEY_ITEM_DONE + " BOOLEAN DEFAULT FALSE NOT NULL," +
-                    KEY_ITEM_CREATED_AT + " TEXT," +
-                    KEY_ITEM_UPDATED_AT + " TEXT" +
+                    KEY_ITEM_DUE_DATE + " DATETIME," +
+                    KEY_ITEM_CREATED_AT + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
+                    KEY_ITEM_UPDATED_AT + " DATETIME DEFAULT CURRENT_TIMESTAMP" +
                 ")";
 
         db.execSQL(CREATE_ITEMS_TABLE);
@@ -134,6 +137,7 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
                     newItem.done = cursor.getInt(cursor.getColumnIndex(KEY_ITEM_DONE)) > 0;
                     newItem.priority = cursor.getInt(cursor.getColumnIndex(KEY_ITEM_PRIORITY));
                     newItem.task = cursor.getString(cursor.getColumnIndex(KEY_ITEM_TASK));
+                    newItem.dueDate = cursor.getString(cursor.getColumnIndex(KEY_ITEM_DUE_DATE));
                     newItem.createdAt = cursor.getString(cursor.getColumnIndex(KEY_ITEM_CREATED_AT));
                     newItem.updatedAt = cursor.getString(cursor.getColumnIndex(KEY_ITEM_UPDATED_AT));
 
@@ -158,7 +162,8 @@ public class ListKeeperDatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_ITEM_TASK, item.task);
         values.put(KEY_ITEM_DONE, item.done);
-        values.put(KEY_ITEM_UPDATED_AT, item.getCurrentDate());
+        values.put(KEY_ITEM_DUE_DATE, item.dueDate);
+        values.put(KEY_ITEM_UPDATED_AT, item.formatDate(new Date()));
 
         return db.update(TABLE_ITEMS, values, KEY_ITEM_ID + " = ?", new String[] {Long.toString(item.id)});
     }

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
-        android:paddingBottom="20dp"
+        android:paddingBottom="8dp"
         android:paddingLeft="10dp"
 
         android:text="Task"
@@ -30,7 +30,7 @@
 
         android:layout_alignBottom="@+id/tvTask"
         android:layout_toRightOf="@+id/ivTag"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="4dp"/>
 
     <ImageView
         android:src="@color/highPriority"
@@ -38,9 +38,20 @@
         android:layout_height="40dp"
         android:id="@+id/ivTag"
         android:layout_alignParentTop="true"
-        android:layout_alignBottom="@+id/tvTask"
+        android:layout_alignBottom="@+id/tvDueDate"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="27 October 2016"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:textSize="10dp"
+        android:id="@+id/tvDueDate"
+        android:layout_below="@+id/tvTask"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
