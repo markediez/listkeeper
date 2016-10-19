@@ -45,14 +45,16 @@ public class Item {
 
     public String getReadableDueDate() {
         String prettyString = "";
-        try {
-            DateFormat df = getDateFormat();
-            Date d = df.parse(this.dueDate);
+        if (this.dueDate != null) {
+            try {
+                DateFormat df = getDateFormat();
+                Date d = df.parse(this.dueDate);
 
-            df = new SimpleDateFormat("dd MMMM yyyy");
-            prettyString = df.format(d);
-        } catch (ParseException e) {
-            e.getStackTrace();
+                df = new SimpleDateFormat("dd MMMM yyyy");
+                prettyString = df.format(d);
+            } catch (ParseException e) {
+                e.getStackTrace();
+            }
         }
 
         return prettyString;
